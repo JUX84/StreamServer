@@ -153,7 +153,7 @@ IceProxy::Player::Server::end_selectSong(const ::Ice::AsyncResultPtr& __result)
 }
 
 void
-IceProxy::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::Context* __ctx)
+IceProxy::Player::Server::playSong(const ::std::string& token, const ::Ice::Context* __ctx)
 {
     ::IceInternal::InvocationObserver __observer(this, __Player__Server__playSong_name, __ctx);
     int __cnt = 0;
@@ -164,7 +164,7 @@ IceProxy::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::Cont
         {
             __delBase = __getDelegate(false);
             ::IceDelegate::Player::Server* __del = dynamic_cast< ::IceDelegate::Player::Server*>(__delBase.get());
-            __del->playSong(tok, __ctx, __observer);
+            __del->playSong(token, __ctx, __observer);
             return;
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
@@ -179,14 +179,14 @@ IceProxy::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::Cont
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Player::Server::begin_playSong(const ::Player::Token& tok, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Player::Server::begin_playSong(const ::std::string& token, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
     ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Player__Server__playSong_name, __del, __cookie);
     try
     {
         __result->__prepare(__Player__Server__playSong_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(tok);
+        __os->write(token);
         __result->__endWriteParams();
         __result->__send(true);
     }
@@ -204,7 +204,7 @@ IceProxy::Player::Server::end_playSong(const ::Ice::AsyncResultPtr& __result)
 }
 
 void
-IceProxy::Player::Server::stopSong(const ::Player::Token& tok, const ::Ice::Context* __ctx)
+IceProxy::Player::Server::stopSong(const ::std::string& token, const ::Ice::Context* __ctx)
 {
     ::IceInternal::InvocationObserver __observer(this, __Player__Server__stopSong_name, __ctx);
     int __cnt = 0;
@@ -215,7 +215,7 @@ IceProxy::Player::Server::stopSong(const ::Player::Token& tok, const ::Ice::Cont
         {
             __delBase = __getDelegate(false);
             ::IceDelegate::Player::Server* __del = dynamic_cast< ::IceDelegate::Player::Server*>(__delBase.get());
-            __del->stopSong(tok, __ctx, __observer);
+            __del->stopSong(token, __ctx, __observer);
             return;
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
@@ -230,14 +230,14 @@ IceProxy::Player::Server::stopSong(const ::Player::Token& tok, const ::Ice::Cont
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Player::Server::begin_stopSong(const ::Player::Token& tok, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Player::Server::begin_stopSong(const ::std::string& token, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
     ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Player__Server__stopSong_name, __del, __cookie);
     try
     {
         __result->__prepare(__Player__Server__stopSong_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(tok);
+        __os->write(token);
         __result->__endWriteParams();
         __result->__send(true);
     }
@@ -500,13 +500,13 @@ IceDelegateM::Player::Server::selectSong(const ::Player::Song& s, const ::Ice::C
 }
 
 void
-IceDelegateM::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::Player::Server::playSong(const ::std::string& token, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
     ::IceInternal::Outgoing __og(__handler.get(), __Player__Server__playSong_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(tok);
+        __os->write(token);
         __og.endWriteParams();
     }
     catch(const ::Ice::LocalException& __ex)
@@ -540,13 +540,13 @@ IceDelegateM::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::
 }
 
 void
-IceDelegateM::Player::Server::stopSong(const ::Player::Token& tok, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::Player::Server::stopSong(const ::std::string& token, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
     ::IceInternal::Outgoing __og(__handler.get(), __Player__Server__stopSong_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(tok);
+        __os->write(token);
         __og.endWriteParams();
     }
     catch(const ::Ice::LocalException& __ex)
@@ -770,15 +770,15 @@ IceDelegateD::Player::Server::selectSong(const ::Player::Song& s, const ::Ice::C
 }
 
 void
-IceDelegateD::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::Player::Server::playSong(const ::std::string& token, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(const ::Player::Token& __p_tok, const ::Ice::Current& __current) : 
+        _DirectI(const ::std::string& __p_token, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
-            _m_tok(__p_tok)
+            _m_token(__p_token)
         {
         }
         
@@ -790,20 +790,20 @@ IceDelegateD::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            servant->playSong(_m_tok, _current);
+            servant->playSong(_m_token, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
-        const ::Player::Token& _m_tok;
+        const ::std::string& _m_token;
     };
     
     ::Ice::Current __current;
     __initCurrent(__current, __Player__Server__playSong_name, ::Ice::Normal, __context);
     try
     {
-        _DirectI __direct(tok, __current);
+        _DirectI __direct(token, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -834,15 +834,15 @@ IceDelegateD::Player::Server::playSong(const ::Player::Token& tok, const ::Ice::
 }
 
 void
-IceDelegateD::Player::Server::stopSong(const ::Player::Token& tok, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::Player::Server::stopSong(const ::std::string& token, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(const ::Player::Token& __p_tok, const ::Ice::Current& __current) : 
+        _DirectI(const ::std::string& __p_token, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
-            _m_tok(__p_tok)
+            _m_token(__p_token)
         {
         }
         
@@ -854,20 +854,20 @@ IceDelegateD::Player::Server::stopSong(const ::Player::Token& tok, const ::Ice::
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            servant->stopSong(_m_tok, _current);
+            servant->stopSong(_m_token, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
-        const ::Player::Token& _m_tok;
+        const ::std::string& _m_token;
     };
     
     ::Ice::Current __current;
     __initCurrent(__current, __Player__Server__stopSong_name, ::Ice::Normal, __context);
     try
     {
-        _DirectI __direct(tok, __current);
+        _DirectI __direct(token, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -1151,10 +1151,10 @@ Player::Server::___playSong(::IceInternal::Incoming& __inS, const ::Ice::Current
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::Player::Token tok;
-    __is->read(tok);
+    ::std::string token;
+    __is->read(token);
     __inS.endReadParams();
-    playSong(tok, __current);
+    playSong(token, __current);
     __inS.__writeEmptyParams();
     return ::Ice::DispatchOK;
 }
@@ -1164,10 +1164,10 @@ Player::Server::___stopSong(::IceInternal::Incoming& __inS, const ::Ice::Current
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::Player::Token tok;
-    __is->read(tok);
+    ::std::string token;
+    __is->read(token);
     __inS.endReadParams();
-    stopSong(tok, __current);
+    stopSong(token, __current);
     __inS.__writeEmptyParams();
     return ::Ice::DispatchOK;
 }

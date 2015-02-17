@@ -157,14 +157,7 @@ struct Song
     }
 };
 
-struct Token
-{
-    ::Ice::Double key;
-};
-
 typedef ::std::vector< ::Player::Song> SongSeq;
-
-typedef ::std::vector< ::Player::Token> TokenSeq;
 
 }
 
@@ -197,32 +190,6 @@ struct StreamReader< ::Player::Song, S>
         __is->read(v.artist);
         __is->read(v.title);
         __is->read(v.path);
-    }
-};
-
-template<>
-struct StreamableTraits< ::Player::Token>
-{
-    static const StreamHelperCategory helper = StreamHelperCategoryStruct;
-    static const int minWireSize = 8;
-    static const bool fixedLength = true;
-};
-
-template<class S>
-struct StreamWriter< ::Player::Token, S>
-{
-    static void write(S* __os, const ::Player::Token& v)
-    {
-        __os->write(v.key);
-    }
-};
-
-template<class S>
-struct StreamReader< ::Player::Token, S>
-{
-    static void read(S* __is, ::Player::Token& v)
-    {
-        __is->read(v.key);
     }
 };
 
@@ -374,143 +341,143 @@ private:
     
 public:
 
-    void playSong(const ::Player::Token& tok)
+    void playSong(const ::std::string& token)
     {
-        playSong(tok, 0);
+        playSong(token, 0);
     }
-    void playSong(const ::Player::Token& tok, const ::Ice::Context& __ctx)
+    void playSong(const ::std::string& token, const ::Ice::Context& __ctx)
     {
-        playSong(tok, &__ctx);
+        playSong(token, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_playSong(const ::Player::Token& tok, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_playSong(const ::std::string& token, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_playSong(tok, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+        return begin_playSong(token, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
     }
     ::Ice::AsyncResultPtr
-    begin_playSong(const ::Player::Token& tok, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_playSong(const ::std::string& token, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_playSong(tok, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_playSong(token, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_playSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_playSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_playSong(tok, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+        return begin_playSong(token, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_playSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_playSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_playSong(tok, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_playSong(token, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
 #endif
 
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token& tok)
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string& token)
     {
-        return begin_playSong(tok, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_playSong(token, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token& tok, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string& token, const ::Ice::Context& __ctx)
     {
-        return begin_playSong(tok, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_playSong(token, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token& tok, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string& token, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_playSong(tok, 0, __del, __cookie);
+        return begin_playSong(token, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_playSong(tok, &__ctx, __del, __cookie);
+        return begin_playSong(token, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token& tok, const ::Player::Callback_Server_playSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string& token, const ::Player::Callback_Server_playSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_playSong(tok, 0, __del, __cookie);
+        return begin_playSong(token, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::Player::Callback_Server_playSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::Player::Callback_Server_playSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_playSong(tok, &__ctx, __del, __cookie);
+        return begin_playSong(token, &__ctx, __del, __cookie);
     }
 
     void end_playSong(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    void playSong(const ::Player::Token&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_playSong(const ::Player::Token&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    void playSong(const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_playSong(const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
-    void stopSong(const ::Player::Token& tok)
+    void stopSong(const ::std::string& token)
     {
-        stopSong(tok, 0);
+        stopSong(token, 0);
     }
-    void stopSong(const ::Player::Token& tok, const ::Ice::Context& __ctx)
+    void stopSong(const ::std::string& token, const ::Ice::Context& __ctx)
     {
-        stopSong(tok, &__ctx);
+        stopSong(token, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_stopSong(const ::Player::Token& tok, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_stopSong(const ::std::string& token, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_stopSong(tok, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+        return begin_stopSong(token, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
     }
     ::Ice::AsyncResultPtr
-    begin_stopSong(const ::Player::Token& tok, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_stopSong(const ::std::string& token, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_stopSong(tok, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_stopSong(token, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_stopSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_stopSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_stopSong(tok, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+        return begin_stopSong(token, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_stopSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_stopSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_stopSong(tok, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_stopSong(token, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
 #endif
 
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token& tok)
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string& token)
     {
-        return begin_stopSong(tok, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_stopSong(token, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token& tok, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string& token, const ::Ice::Context& __ctx)
     {
-        return begin_stopSong(tok, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_stopSong(token, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token& tok, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string& token, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_stopSong(tok, 0, __del, __cookie);
+        return begin_stopSong(token, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_stopSong(tok, &__ctx, __del, __cookie);
+        return begin_stopSong(token, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token& tok, const ::Player::Callback_Server_stopSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string& token, const ::Player::Callback_Server_stopSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_stopSong(tok, 0, __del, __cookie);
+        return begin_stopSong(token, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token& tok, const ::Ice::Context& __ctx, const ::Player::Callback_Server_stopSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string& token, const ::Ice::Context& __ctx, const ::Player::Callback_Server_stopSongPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_stopSong(tok, &__ctx, __del, __cookie);
+        return begin_stopSong(token, &__ctx, __del, __cookie);
     }
 
     void end_stopSong(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    void stopSong(const ::Player::Token&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_stopSong(const ::Player::Token&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    void stopSong(const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_stopSong(const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
@@ -892,9 +859,9 @@ public:
 
     virtual ::std::string selectSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual void playSong(const ::Player::Token&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual void playSong(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual void stopSong(const ::Player::Token&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual void stopSong(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
     virtual void addSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
@@ -920,9 +887,9 @@ public:
 
     virtual ::std::string selectSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual void playSong(const ::Player::Token&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void playSong(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual void stopSong(const ::Player::Token&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void stopSong(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual void addSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
@@ -948,9 +915,9 @@ public:
 
     virtual ::std::string selectSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual void playSong(const ::Player::Token&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void playSong(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual void stopSong(const ::Player::Token&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void stopSong(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual void addSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
@@ -981,10 +948,10 @@ public:
     virtual ::std::string selectSong(const ::Player::Song&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___selectSong(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual void playSong(const ::Player::Token&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual void playSong(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___playSong(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual void stopSong(const ::Player::Token&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual void stopSong(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___stopSong(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual void addSong(const ::Player::Song&, const ::Ice::Current& = ::Ice::Current()) = 0;
