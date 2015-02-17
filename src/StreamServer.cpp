@@ -14,7 +14,7 @@ std::string StreamServer::selectSong(const Song& s, const Ice::Current& c) {
 	const char *sout = "#transcode{acodec=mp3,ab=128,channels=2," \
 						"samplerate=44100}:http{dst=:8090/go.mp3}";
 	Ice::IPConnectionInfo* ipCoInfo = dynamic_cast<Ice::IPConnectionInfo*>(c.con->getInfo().get());
-	std::string token = ipCoInfo->remoteAddress + std::to_string(ipCoInfo->remotePort);
+	std::string token = ipCoInfo->remoteAddress.substr(7) + "." + std::to_string(ipCoInfo->remotePort);
 	libvlc_vlm_add_broadcast(vlc, token.c_str(), "test.mp3", sout, 0, nullptr, true, false);
 	return token;
 }
