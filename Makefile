@@ -8,6 +8,9 @@ CXX=clang++ -std=c++11 -I$(INC)
 
 all: $(BIN)StreamServer.bin
 
+run: all
+	./$(BIN)StreamServer.bin
+
 slice: $(ICE)Server.ice
 	slice2cpp $< && mv Server.cpp $(SRC) && mv Server.h $(INC)
 
