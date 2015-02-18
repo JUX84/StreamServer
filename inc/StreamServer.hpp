@@ -9,7 +9,6 @@ using namespace Player;
 class StreamServer : public Server {
 	private:
 		std::vector<Song> songs;
-		std::list<double> streams;
 		libvlc_instance_t *vlc;
 	public:
 		StreamServer();
