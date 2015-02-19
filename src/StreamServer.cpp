@@ -19,7 +19,8 @@ std::string StreamServer::selectSong(const Song& s, const Ice::Current& c) {
 	std::string ssout = "#transcode{acodec=mp3,ab=128,channels=2," \
 						 "samplerate=44100}:http{dst=:8090/"+token+".mp3}";
 	const char* sout = ssout.c_str();
-	libvlc_vlm_add_broadcast(vlc, token.c_str(), s.path.c_str(), sout, 0, nullptr, true, false);
+	std::string path = "songs/"+s.path;
+	libvlc_vlm_add_broadcast(vlc, token.c_str(), path.c_str(), sout, 0, nullptr, true, false);
 	std::cout << "Selected song (" << token << ")\n";
 	return token;
 }

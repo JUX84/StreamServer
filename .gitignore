@@ -1,4 +1,5 @@
 bin/
 obj/
+songs/
 *.swp
 test.mp3
