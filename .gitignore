@@ -1,5 +1,4 @@
-bin/
-obj/
+bin/*.bin
+obj/*.o
 songs/
 *.swp
-test.mp3
