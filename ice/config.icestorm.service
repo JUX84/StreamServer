@@ -1,0 +1,4 @@
+IceStorm.InstanceName=StreamIceStorm
+IceStorm.TopicManager.Endpoints=tcp -p 9999 
+IceStorm.Publish.Endpoints=tcp -p 10003
+Freeze.DbEnv.IceStorm.DbHome=db
