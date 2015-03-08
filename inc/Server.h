@@ -59,6 +59,10 @@ class Server;
 void __read(::IceInternal::BasicStream*, ::IceInternal::ProxyHandle< ::IceProxy::Player::Server>&);
 ::IceProxy::Ice::Object* upCast(::IceProxy::Player::Server*);
 
+class Monitor;
+void __read(::IceInternal::BasicStream*, ::IceInternal::ProxyHandle< ::IceProxy::Player::Monitor>&);
+::IceProxy::Ice::Object* upCast(::IceProxy::Player::Monitor*);
+
 }
 
 }
@@ -73,6 +77,14 @@ bool operator<(const Server&, const Server&);
 typedef ::IceInternal::Handle< ::Player::Server> ServerPtr;
 typedef ::IceInternal::ProxyHandle< ::IceProxy::Player::Server> ServerPrx;
 void __patch(ServerPtr&, const ::Ice::ObjectPtr&);
+
+class Monitor;
+bool operator==(const Monitor&, const Monitor&);
+bool operator<(const Monitor&, const Monitor&);
+::Ice::Object* upCast(::Player::Monitor*);
+typedef ::IceInternal::Handle< ::Player::Monitor> MonitorPtr;
+typedef ::IceInternal::ProxyHandle< ::IceProxy::Player::Monitor> MonitorPrx;
+void __patch(MonitorPtr&, const ::Ice::ObjectPtr&);
 
 }
 
@@ -215,6 +227,9 @@ typedef ::IceUtil::Handle< Callback_Server_removeSong_Base> Callback_Server_remo
 
 class Callback_Server_searchSong_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_Server_searchSong_Base> Callback_Server_searchSongPtr;
+
+class Callback_Monitor_report_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_Monitor_report_Base> Callback_Monitor_reportPtr;
 
 }
 
@@ -843,6 +858,189 @@ private:
     virtual ::IceProxy::Ice::Object* __newInstance() const;
 };
 
+class Monitor : virtual public ::IceProxy::Ice::Object
+{
+public:
+
+    void report(const ::std::string& notif)
+    {
+        report(notif, 0);
+    }
+    void report(const ::std::string& notif, const ::Ice::Context& __ctx)
+    {
+        report(notif, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_report(const ::std::string& notif, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return begin_report(notif, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+    }
+    ::Ice::AsyncResultPtr
+    begin_report(const ::std::string& notif, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_report(notif, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return begin_report(notif, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_report(notif, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+#endif
+
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif)
+    {
+        return begin_report(notif, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::Context& __ctx)
+    {
+        return begin_report(notif, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_report(notif, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_report(notif, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Player::Callback_Monitor_reportPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_report(notif, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::Player::Callback_Monitor_reportPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_report(notif, &__ctx, __del, __cookie);
+    }
+
+    void end_report(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    void report(const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_report(const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_context(const ::Ice::Context& __context) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_context(__context).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_adapterId(const ::std::string& __id) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_adapterId(__id).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_endpoints(const ::Ice::EndpointSeq& __endpoints) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_endpoints(__endpoints).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_locatorCacheTimeout(int __timeout) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_locatorCacheTimeout(__timeout).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_connectionCached(bool __cached) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_connectionCached(__cached).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_endpointSelection(::Ice::EndpointSelectionType __est) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_endpointSelection(__est).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_secure(bool __secure) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_secure(__secure).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_preferSecure(bool __preferSecure) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_preferSecure(__preferSecure).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_router(const ::Ice::RouterPrx& __router) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_router(__router).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_locator(const ::Ice::LocatorPrx& __locator) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_locator(__locator).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_collocationOptimized(bool __co) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_collocationOptimized(__co).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_twoway() const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_twoway().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_oneway() const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_oneway().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_batchOneway() const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_batchOneway().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_datagram() const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_datagram().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_batchDatagram() const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_batchDatagram().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_compress(bool __compress) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_compress(__compress).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_timeout(int __timeout) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_timeout(__timeout).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_connectionId(const ::std::string& __id) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_connectionId(__id).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Monitor> ice_encodingVersion(const ::Ice::EncodingVersion& __v) const
+    {
+        return dynamic_cast<Monitor*>(::IceProxy::Ice::Object::ice_encodingVersion(__v).get());
+    }
+    
+    static const ::std::string& ice_staticId();
+
+private: 
+
+    virtual ::IceInternal::Handle< ::IceDelegateM::Ice::Object> __createDelegateM();
+    virtual ::IceInternal::Handle< ::IceDelegateD::Ice::Object> __createDelegateD();
+    virtual ::IceProxy::Ice::Object* __newInstance() const;
+};
+
 }
 
 }
@@ -868,6 +1066,13 @@ public:
     virtual void removeSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+};
+
+class Monitor : virtual public ::IceDelegate::Ice::Object
+{
+public:
+
+    virtual void report(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 };
 
 }
@@ -898,6 +1103,14 @@ public:
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
+class Monitor : virtual public ::IceDelegate::Player::Monitor,
+                virtual public ::IceDelegateM::Ice::Object
+{
+public:
+
+    virtual void report(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+};
+
 }
 
 }
@@ -924,6 +1137,14 @@ public:
     virtual void removeSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+};
+
+class Monitor : virtual public ::IceDelegate::Player::Monitor,
+                virtual public ::IceDelegateD::Ice::Object
+{
+public:
+
+    virtual void report(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -980,6 +1201,42 @@ inline bool operator==(const Server& l, const Server& r)
 }
 
 inline bool operator<(const Server& l, const Server& r)
+{
+    return static_cast<const ::Ice::Object&>(l) < static_cast<const ::Ice::Object&>(r);
+}
+
+class Monitor : virtual public ::Ice::Object
+{
+public:
+
+    typedef MonitorPrx ProxyType;
+    typedef MonitorPtr PointerType;
+
+    virtual bool ice_isA(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) const;
+    virtual ::std::vector< ::std::string> ice_ids(const ::Ice::Current& = ::Ice::Current()) const;
+    virtual const ::std::string& ice_id(const ::Ice::Current& = ::Ice::Current()) const;
+    static const ::std::string& ice_staticId();
+
+    virtual void report(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___report(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
+
+protected:
+    virtual void __writeImpl(::IceInternal::BasicStream*) const;
+    virtual void __readImpl(::IceInternal::BasicStream*);
+    #ifdef __SUNPRO_CC
+    using ::Ice::Object::__writeImpl;
+    using ::Ice::Object::__readImpl;
+    #endif
+};
+
+inline bool operator==(const Monitor& l, const Monitor& r)
+{
+    return static_cast<const ::Ice::Object&>(l) == static_cast<const ::Ice::Object&>(r);
+}
+
+inline bool operator<(const Monitor& l, const Monitor& r)
 {
     return static_cast<const ::Ice::Object&>(l) < static_cast<const ::Ice::Object&>(r);
 }
@@ -1515,6 +1772,88 @@ template<class T, typename CT> Callback_Server_searchSongPtr
 newCallback_Server_searchSong(T* instance, void (T::*cb)(const ::Player::SongSeq&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
     return new Callback_Server_searchSong<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_Monitor_report : public Callback_Monitor_report_Base, public ::IceInternal::OnewayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)();
+
+    CallbackNC_Monitor_report(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::OnewayCallbackNC<T>(obj, cb, excb, sentcb)
+    {
+    }
+};
+
+template<class T> Callback_Monitor_reportPtr
+newCallback_Monitor_report(const IceUtil::Handle<T>& instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Monitor_report<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Monitor_reportPtr
+newCallback_Monitor_report(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Monitor_report<T>(instance, 0, excb, sentcb);
+}
+
+template<class T> Callback_Monitor_reportPtr
+newCallback_Monitor_report(T* instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Monitor_report<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Monitor_reportPtr
+newCallback_Monitor_report(T* instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Monitor_report<T>(instance, 0, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_Monitor_report : public Callback_Monitor_report_Base, public ::IceInternal::OnewayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(const CT&);
+
+    Callback_Monitor_report(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::OnewayCallback<T, CT>(obj, cb, excb, sentcb)
+    {
+    }
+};
+
+template<class T, typename CT> Callback_Monitor_reportPtr
+newCallback_Monitor_report(const IceUtil::Handle<T>& instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Monitor_report<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Monitor_reportPtr
+newCallback_Monitor_report(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Monitor_report<T, CT>(instance, 0, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Monitor_reportPtr
+newCallback_Monitor_report(T* instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Monitor_report<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Monitor_reportPtr
+newCallback_Monitor_report(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Monitor_report<T, CT>(instance, 0, excb, sentcb);
 }
 
 }

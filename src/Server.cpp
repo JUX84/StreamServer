@@ -52,6 +52,8 @@ const ::std::string __Player__Server__removeSong_name = "removeSong";
 
 const ::std::string __Player__Server__searchSong_name = "searchSong";
 
+const ::std::string __Player__Monitor__report_name = "report";
+
 }
 
 namespace Ice
@@ -457,6 +459,98 @@ IceProxy::Player::Server::__newInstance() const
 {
     return new Server;
 }
+::IceProxy::Ice::Object* ::IceProxy::Player::upCast(::IceProxy::Player::Monitor* p) { return p; }
+
+void
+::IceProxy::Player::__read(::IceInternal::BasicStream* __is, ::IceInternal::ProxyHandle< ::IceProxy::Player::Monitor>& v)
+{
+    ::Ice::ObjectPrx proxy;
+    __is->read(proxy);
+    if(!proxy)
+    {
+        v = 0;
+    }
+    else
+    {
+        v = new ::IceProxy::Player::Monitor;
+        v->__copyFrom(proxy);
+    }
+}
+
+void
+IceProxy::Player::Monitor::report(const ::std::string& notif, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __Player__Monitor__report_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __delBase = __getDelegate(false);
+            ::IceDelegate::Player::Monitor* __del = dynamic_cast< ::IceDelegate::Player::Monitor*>(__delBase.get());
+            __del->report(notif, __ctx, __observer);
+            return;
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::Player::Monitor::begin_report(const ::std::string& notif, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Player__Monitor__report_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__Player__Monitor__report_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
+        __os->write(notif);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+void
+IceProxy::Player::Monitor::end_report(const ::Ice::AsyncResultPtr& __result)
+{
+    __end(__result, __Player__Monitor__report_name);
+}
+
+const ::std::string&
+IceProxy::Player::Monitor::ice_staticId()
+{
+    return ::Player::Monitor::ice_staticId();
+}
+
+::IceInternal::Handle< ::IceDelegateM::Ice::Object>
+IceProxy::Player::Monitor::__createDelegateM()
+{
+    return ::IceInternal::Handle< ::IceDelegateM::Ice::Object>(new ::IceDelegateM::Player::Monitor);
+}
+
+::IceInternal::Handle< ::IceDelegateD::Ice::Object>
+IceProxy::Player::Monitor::__createDelegateD()
+{
+    return ::IceInternal::Handle< ::IceDelegateD::Ice::Object>(new ::IceDelegateD::Player::Monitor);
+}
+
+::IceProxy::Ice::Object*
+IceProxy::Player::Monitor::__newInstance() const
+{
+    return new Monitor;
+}
 
 ::std::string
 IceDelegateM::Player::Server::selectSong(const ::Player::Song& s, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
@@ -698,6 +792,46 @@ IceDelegateM::Player::Server::searchSong(const ::std::string& artist, const ::st
     catch(const ::Ice::LocalException& __ex)
     {
         throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+    }
+}
+
+void
+IceDelegateM::Player::Monitor::report(const ::std::string& notif, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __Player__Monitor__report_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(notif);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    if(__og.hasResponse())
+    {
+        try
+        {
+            if(!__ok)
+            {
+                try
+                {
+                    __og.throwUserException();
+                }
+                catch(const ::Ice::UserException& __ex)
+                {
+                    ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                    throw __uue;
+                }
+            }
+            __og.readEmptyParams();
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+        }
     }
 }
 
@@ -1095,6 +1229,70 @@ IceDelegateD::Player::Server::searchSong(const ::std::string& artist, const ::st
     return __result;
 }
 
+void
+IceDelegateD::Player::Monitor::report(const ::std::string& notif, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(const ::std::string& __p_notif, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _m_notif(__p_notif)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::Player::Monitor* servant = dynamic_cast< ::Player::Monitor*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            servant->report(_m_notif, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        const ::std::string& _m_notif;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __Player__Monitor__report_name, ::Ice::Normal, __context);
+    try
+    {
+        _DirectI __direct(notif, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+}
+
 ::Ice::Object* Player::upCast(::Player::Server* p) { return p; }
 
 namespace
@@ -1311,5 +1509,128 @@ Player::__patch(ServerPtr& handle, const ::Ice::ObjectPtr& v)
     if(v && !handle)
     {
         IceInternal::Ex::throwUOE(::Player::Server::ice_staticId(), v);
+    }
+}
+
+::Ice::Object* Player::upCast(::Player::Monitor* p) { return p; }
+
+namespace
+{
+const ::std::string __Player__Monitor_ids[2] =
+{
+    "::Ice::Object",
+    "::Player::Monitor"
+};
+
+}
+
+bool
+Player::Monitor::ice_isA(const ::std::string& _s, const ::Ice::Current&) const
+{
+    return ::std::binary_search(__Player__Monitor_ids, __Player__Monitor_ids + 2, _s);
+}
+
+::std::vector< ::std::string>
+Player::Monitor::ice_ids(const ::Ice::Current&) const
+{
+    return ::std::vector< ::std::string>(&__Player__Monitor_ids[0], &__Player__Monitor_ids[2]);
+}
+
+const ::std::string&
+Player::Monitor::ice_id(const ::Ice::Current&) const
+{
+    return __Player__Monitor_ids[1];
+}
+
+const ::std::string&
+Player::Monitor::ice_staticId()
+{
+    return __Player__Monitor_ids[1];
+}
+
+::Ice::DispatchStatus
+Player::Monitor::___report(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::std::string notif;
+    __is->read(notif);
+    __inS.endReadParams();
+    report(notif, __current);
+    __inS.__writeEmptyParams();
+    return ::Ice::DispatchOK;
+}
+
+namespace
+{
+const ::std::string __Player__Monitor_all[] =
+{
+    "ice_id",
+    "ice_ids",
+    "ice_isA",
+    "ice_ping",
+    "report"
+};
+
+}
+
+::Ice::DispatchStatus
+Player::Monitor::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
+{
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Player__Monitor_all, __Player__Monitor_all + 5, current.operation);
+    if(r.first == r.second)
+    {
+        throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
+    }
+
+    switch(r.first - __Player__Monitor_all)
+    {
+        case 0:
+        {
+            return ___ice_id(in, current);
+        }
+        case 1:
+        {
+            return ___ice_ids(in, current);
+        }
+        case 2:
+        {
+            return ___ice_isA(in, current);
+        }
+        case 3:
+        {
+            return ___ice_ping(in, current);
+        }
+        case 4:
+        {
+            return ___report(in, current);
+        }
+    }
+
+    assert(false);
+    throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
+}
+
+void
+Player::Monitor::__writeImpl(::IceInternal::BasicStream* __os) const
+{
+    __os->startWriteSlice(ice_staticId(), -1, true);
+    __os->endWriteSlice();
+}
+
+void
+Player::Monitor::__readImpl(::IceInternal::BasicStream* __is)
+{
+    __is->startReadSlice();
+    __is->endReadSlice();
+}
+
+void 
+Player::__patch(MonitorPtr& handle, const ::Ice::ObjectPtr& v)
+{
+    handle = ::Player::MonitorPtr::dynamicCast(v);
+    if(v && !handle)
+    {
+        IceInternal::Ex::throwUOE(::Player::Monitor::ice_staticId(), v);
     }
 }

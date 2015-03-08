@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 	int status = 0;
 	Ice::CommunicatorPtr ic;
 	try {
-		ic = Ice::initialize(argc, argv);
+		ic = Ice::initialize();
 		std::string opts = "tcp -p " + std::to_string(port);
 		Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("StreamServerAdapter", opts.c_str());
 		Ice::ObjectPtr object = new StreamServer;

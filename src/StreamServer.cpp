@@ -4,8 +4,30 @@
 #include <vlc/libvlc_vlm.h>
 #include <vlc/vlc.h>
 #include <Ice/Ice.h>
+#include <IceStorm/IceStorm.h>
 
 StreamServer::StreamServer() {
+	Ice::CommunicatorPtr ic;
+	try {
+		ic = Ice::initialize();
+		Ice::ObjectPrx obj = ic->stringToProxy("StreamIceStorm/TopicManager:tcp -p 9999");
+		IceStorm::TopicManagerPrx topicManager = IceStorm::TopicManagerPrx::checkedCast(obj);
+		IceStorm::TopicPrx topic;
+		while (!topic) {
+			try {
+				topic = topicManager->retrieve("StreamPlayerNotifs");
+			} catch (const IceStorm::NoSuchTopic&) {
+				try {
+					topic = topicManager->create("StreamPlayerNotifs");
+				} catch(const IceStorm::TopicExists&) {
+				}
+			}
+		}
+		Ice::ObjectPrx pub = topic->getPublisher()->ice_oneway();
+		monitor = MonitorPrx::uncheckedCast(pub);
+	} catch (const Ice::Exception& e) {
+		std::cerr << e << '\n';
+	}
 	vlc = libvlc_new(0, NULL);
 }
 
@@ -42,6 +64,7 @@ void StreamServer::stopSong(const std::string& token, const Ice::Current&) {
 void StreamServer::addSong(const Song& s, const Ice::Current&) {
 	std::cout << "Adding song (" << s.artist << ", " << s.title << ")\n";
 	songs.push_back(s);
+	monitor->report("The song "+s.title+" by "+s.artist+" was added");
 }
 
 void StreamServer::removeSong(const Song& s, const Ice::Current&) {
@@ -50,6 +73,7 @@ void StreamServer::removeSong(const Song& s, const Ice::Current&) {
 		if(songs[i].artist == s.artist && songs[i].title == s.title)
 			songs.erase(songs.begin()+(i--));
 	}
+	monitor->report("The song "+s.title+" by "+s.artist+" was removed");
 }
 
 std::vector<Song> StreamServer::searchSong(const std::string& artist, const std::string& title, const Ice::Current&) {

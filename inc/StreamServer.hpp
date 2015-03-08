@@ -10,6 +10,7 @@ class StreamServer : public Server {
 	private:
 		std::vector<Song> songs;
 		libvlc_instance_t *vlc;
+		MonitorPrx monitor;
 	public:
 		StreamServer();
 		std::string selectSong(const Song& s, const Ice::Current&);

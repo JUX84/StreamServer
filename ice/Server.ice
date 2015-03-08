@@ -16,4 +16,8 @@ module Player {
 		void removeSong(Song s);
 		SongSeq searchSong(string artist, string title);
 	};
+
+	interface Monitor {
+		void report(string notif);
+	};
 };
