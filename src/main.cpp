@@ -3,11 +3,25 @@
 #include <Ice/Ice.h>
 
 int main(int argc, char **argv) {
+	long port;
+	if(argc != 2) {
+		std::cerr << "Specify port in argument\n";
+		return 1;
+	} else {
+		try {
+			std::string tmp = argv[1];
+			port = std::stoul(tmp);
+		} catch (const std::exception& e) {
+			std::cerr << "Invalid port number\n";
+			return 1;
+		}
+	}
 	int status = 0;
 	Ice::CommunicatorPtr ic;
 	try {
 		ic = Ice::initialize(argc, argv);
-		Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("StreamServerAdapter", "tcp -p 10000");
+		std::string opts = "tcp -p " + std::to_string(port);
+		Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("StreamServerAdapter", opts.c_str());
 		Ice::ObjectPtr object = new StreamServer;
 		adapter->add(object, ic->stringToIdentity("StreamServer"));
 		adapter->activate();
