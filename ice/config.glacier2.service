@@ -1,0 +1,4 @@
+Glacier2.Client.Endpoints=tcp -h zouxe.ovh -p 4063
+Glacier2.Server.Endpoints=tcp -h zouxe.ovh
+Glacier2.SessionTimeout=60
+Glacier2.CryptPasswords=passwords
