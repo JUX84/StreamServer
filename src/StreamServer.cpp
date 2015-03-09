@@ -10,7 +10,7 @@ StreamServer::StreamServer() {
 	Ice::CommunicatorPtr ic;
 	try {
 		ic = Ice::initialize();
-		Ice::ObjectPrx obj = ic->stringToProxy("StreamIceStorm/TopicManager:tcp -p 9999");
+		Ice::ObjectPrx obj = ic->stringToProxy("IceStorm/TopicManager:tcp -p 9999");
 		IceStorm::TopicManagerPrx topicManager = IceStorm::TopicManagerPrx::checkedCast(obj);
 		IceStorm::TopicPrx topic;
 		while (!topic) {
