@@ -10,7 +10,7 @@ StreamServer::StreamServer() {
 	Ice::CommunicatorPtr ic;
 	try {
 		ic = Ice::initialize();
-		Ice::ObjectPrx obj = ic->stringToProxy("IceStorm/TopicManager:tcp -p 9999");
+		Ice::ObjectPrx obj = ic->stringToProxy("IceStorm/TopicManager:tcp -h 80.240.129.188 -p 9999");
 		IceStorm::TopicManagerPrx topicManager = IceStorm::TopicManagerPrx::checkedCast(obj);
 		IceStorm::TopicPrx topic;
 		while (!topic) {
@@ -23,7 +23,7 @@ StreamServer::StreamServer() {
 				}
 			}
 		}
-		Ice::ObjectPrx pub = topic->getPublisher()->ice_oneway();
+		Ice::ObjectPrx pub = topic->getPublisher()->ice_twoway();
 		monitor = MonitorPrx::uncheckedCast(pub);
 	} catch (const Ice::Exception& e) {
 		std::cerr << e << '\n';

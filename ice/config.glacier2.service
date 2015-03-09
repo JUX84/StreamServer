@@ -1,3 +1,5 @@
 Glacier2.Client.Endpoints=tcp -h 80.240.129.188 -p 4063
-Glacier2.Server.Endpoints=tcp -h 10.129.130.26
+Glacier2.Server.Endpoints=tcp -h 80.240.129.188
+Glacier2.Trace.RoutingTable=3
+Glacier2.Trace.Session=3
 Glacier2.CryptPasswords=passwords
