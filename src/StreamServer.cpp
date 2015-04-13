@@ -100,7 +100,8 @@ std::vector<Song> StreamServer::searchSong(const std::string& artist, const std:
 
 void StreamServer::uploadFile(const std::string& name, const ByteSeq& data, const Ice::Current& c) {
 	FILE* file;
-	std::string path = "../songs/" + name;
+	std::string path = "songs/" + name + ".mp3";
+	std::cout << path << std::endl;
 	file = fopen(path.c_str(), "a+");
 	fseek(file, 0, SEEK_END);
 	fwrite(&data[0], 1, data.size(), file);
