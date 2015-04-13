@@ -6,6 +6,7 @@ module Player {
 	};
 
 	sequence<Song> SongSeq;
+	sequence<byte> ByteSeq;
 
 	interface Server {
 		string selectSong(Song s);
@@ -15,9 +16,11 @@ module Player {
 		void addSong(Song s);
 		void removeSong(Song s);
 		SongSeq searchSong(string artist, string title);
+
+		void uploadFile(string path, ByteSeq data);
 	};
 
 	interface Monitor {
-		void report(string notif);
+		void report(string action, Song s);
 	};
 };

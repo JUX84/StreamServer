@@ -19,4 +19,5 @@ class StreamServer : public Server {
 		void addSong(const Song& s, const Ice::Current&);
 		void removeSong(const Song& s, const Ice::Current&);
 		SongSeq searchSong(const std::string& artist, const std::string& title, const Ice::Current&);
+		void uploadFile(const std::string& name, const ByteSeq& data, const Ice::Current&);
 };

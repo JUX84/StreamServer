@@ -171,6 +171,8 @@ struct Song
 
 typedef ::std::vector< ::Player::Song> SongSeq;
 
+typedef ::std::vector< ::Ice::Byte> ByteSeq;
+
 }
 
 namespace Ice
@@ -227,6 +229,9 @@ typedef ::IceUtil::Handle< Callback_Server_removeSong_Base> Callback_Server_remo
 
 class Callback_Server_searchSong_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_Server_searchSong_Base> Callback_Server_searchSongPtr;
+
+class Callback_Server_uploadFile_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_Server_uploadFile_Base> Callback_Server_uploadFilePtr;
 
 class Callback_Monitor_report_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_Monitor_report_Base> Callback_Monitor_reportPtr;
@@ -748,6 +753,76 @@ private:
     ::Ice::AsyncResultPtr begin_searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
+
+    void uploadFile(const ::std::string& path, const ::Player::ByteSeq& data)
+    {
+        uploadFile(path, data, 0);
+    }
+    void uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context& __ctx)
+    {
+        uploadFile(path, data, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return begin_uploadFile(path, data, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+    }
+    ::Ice::AsyncResultPtr
+    begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_uploadFile(path, data, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return begin_uploadFile(path, data, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_uploadFile(path, data, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+#endif
+
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data)
+    {
+        return begin_uploadFile(path, data, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context& __ctx)
+    {
+        return begin_uploadFile(path, data, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_uploadFile(path, data, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_uploadFile(path, data, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Player::Callback_Server_uploadFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_uploadFile(path, data, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context& __ctx, const ::Player::Callback_Server_uploadFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_uploadFile(path, data, &__ctx, __del, __cookie);
+    }
+
+    void end_uploadFile(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    void uploadFile(const ::std::string&, const ::Player::ByteSeq&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_uploadFile(const ::std::string&, const ::Player::ByteSeq&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
     
     ::IceInternal::ProxyHandle<Server> ice_context(const ::Ice::Context& __context) const
     {
@@ -862,73 +937,73 @@ class Monitor : virtual public ::IceProxy::Ice::Object
 {
 public:
 
-    void report(const ::std::string& notif)
+    void report(const ::std::string& action, const ::Player::Song& s)
     {
-        report(notif, 0);
+        report(action, s, 0);
     }
-    void report(const ::std::string& notif, const ::Ice::Context& __ctx)
+    void report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context& __ctx)
     {
-        report(notif, &__ctx);
+        report(action, s, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_report(const ::std::string& notif, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_report(const ::std::string& action, const ::Player::Song& s, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_report(notif, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+        return begin_report(action, s, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
     }
     ::Ice::AsyncResultPtr
-    begin_report(const ::std::string& notif, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_report(const ::std::string& action, const ::Player::Song& s, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_report(notif, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_report(action, s, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_report(notif, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+        return begin_report(action, s, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_report(notif, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_report(action, s, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
 #endif
 
-    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif)
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& action, const ::Player::Song& s)
     {
-        return begin_report(notif, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_report(action, s, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context& __ctx)
     {
-        return begin_report(notif, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_report(action, s, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_report(notif, 0, __del, __cookie);
+        return begin_report(action, s, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_report(notif, &__ctx, __del, __cookie);
+        return begin_report(action, s, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Player::Callback_Monitor_reportPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& action, const ::Player::Song& s, const ::Player::Callback_Monitor_reportPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_report(notif, 0, __del, __cookie);
+        return begin_report(action, s, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_report(const ::std::string& notif, const ::Ice::Context& __ctx, const ::Player::Callback_Monitor_reportPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context& __ctx, const ::Player::Callback_Monitor_reportPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_report(notif, &__ctx, __del, __cookie);
+        return begin_report(action, s, &__ctx, __del, __cookie);
     }
 
     void end_report(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    void report(const ::std::string&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_report(const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    void report(const ::std::string&, const ::Player::Song&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_report(const ::std::string&, const ::Player::Song&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
     
@@ -1066,13 +1141,15 @@ public:
     virtual void removeSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual void uploadFile(const ::std::string&, const ::Player::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 };
 
 class Monitor : virtual public ::IceDelegate::Ice::Object
 {
 public:
 
-    virtual void report(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual void report(const ::std::string&, const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 };
 
 }
@@ -1101,6 +1178,8 @@ public:
     virtual void removeSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual void uploadFile(const ::std::string&, const ::Player::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 class Monitor : virtual public ::IceDelegate::Player::Monitor,
@@ -1108,7 +1187,7 @@ class Monitor : virtual public ::IceDelegate::Player::Monitor,
 {
 public:
 
-    virtual void report(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void report(const ::std::string&, const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -1137,6 +1216,8 @@ public:
     virtual void removeSong(const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual void uploadFile(const ::std::string&, const ::Player::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 class Monitor : virtual public ::IceDelegate::Player::Monitor,
@@ -1144,7 +1225,7 @@ class Monitor : virtual public ::IceDelegate::Player::Monitor,
 {
 public:
 
-    virtual void report(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void report(const ::std::string&, const ::Player::Song&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -1184,6 +1265,9 @@ public:
     virtual ::Player::SongSeq searchSong(const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___searchSong(::IceInternal::Incoming&, const ::Ice::Current&);
 
+    virtual void uploadFile(const ::std::string&, const ::Player::ByteSeq&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___uploadFile(::IceInternal::Incoming&, const ::Ice::Current&);
+
     virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
 
 protected:
@@ -1217,7 +1301,7 @@ public:
     virtual const ::std::string& ice_id(const ::Ice::Current& = ::Ice::Current()) const;
     static const ::std::string& ice_staticId();
 
-    virtual void report(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual void report(const ::std::string&, const ::Player::Song&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___report(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
@@ -1772,6 +1856,88 @@ template<class T, typename CT> Callback_Server_searchSongPtr
 newCallback_Server_searchSong(T* instance, void (T::*cb)(const ::Player::SongSeq&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
     return new Callback_Server_searchSong<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_Server_uploadFile : public Callback_Server_uploadFile_Base, public ::IceInternal::OnewayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)();
+
+    CallbackNC_Server_uploadFile(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::OnewayCallbackNC<T>(obj, cb, excb, sentcb)
+    {
+    }
+};
+
+template<class T> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(const IceUtil::Handle<T>& instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Server_uploadFile<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Server_uploadFile<T>(instance, 0, excb, sentcb);
+}
+
+template<class T> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(T* instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Server_uploadFile<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(T* instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Server_uploadFile<T>(instance, 0, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_Server_uploadFile : public Callback_Server_uploadFile_Base, public ::IceInternal::OnewayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(const CT&);
+
+    Callback_Server_uploadFile(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::OnewayCallback<T, CT>(obj, cb, excb, sentcb)
+    {
+    }
+};
+
+template<class T, typename CT> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(const IceUtil::Handle<T>& instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Server_uploadFile<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Server_uploadFile<T, CT>(instance, 0, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(T* instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Server_uploadFile<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Server_uploadFilePtr
+newCallback_Server_uploadFile(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Server_uploadFile<T, CT>(instance, 0, excb, sentcb);
 }
 
 template<class T>

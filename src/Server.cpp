@@ -52,6 +52,8 @@ const ::std::string __Player__Server__removeSong_name = "removeSong";
 
 const ::std::string __Player__Server__searchSong_name = "searchSong";
 
+const ::std::string __Player__Server__uploadFile_name = "uploadFile";
+
 const ::std::string __Player__Monitor__report_name = "report";
 
 }
@@ -436,6 +438,58 @@ IceProxy::Player::Server::end_searchSong(const ::Ice::AsyncResultPtr& __result)
     }
 }
 
+void
+IceProxy::Player::Server::uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __Player__Server__uploadFile_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __delBase = __getDelegate(false);
+            ::IceDelegate::Player::Server* __del = dynamic_cast< ::IceDelegate::Player::Server*>(__delBase.get());
+            __del->uploadFile(path, data, __ctx, __observer);
+            return;
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::Player::Server::begin_uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Player__Server__uploadFile_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__Player__Server__uploadFile_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
+        __os->write(path);
+        __os->write(data);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+void
+IceProxy::Player::Server::end_uploadFile(const ::Ice::AsyncResultPtr& __result)
+{
+    __end(__result, __Player__Server__uploadFile_name);
+}
+
 const ::std::string&
 IceProxy::Player::Server::ice_staticId()
 {
@@ -478,7 +532,7 @@ void
 }
 
 void
-IceProxy::Player::Monitor::report(const ::std::string& notif, const ::Ice::Context* __ctx)
+IceProxy::Player::Monitor::report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context* __ctx)
 {
     ::IceInternal::InvocationObserver __observer(this, __Player__Monitor__report_name, __ctx);
     int __cnt = 0;
@@ -489,7 +543,7 @@ IceProxy::Player::Monitor::report(const ::std::string& notif, const ::Ice::Conte
         {
             __delBase = __getDelegate(false);
             ::IceDelegate::Player::Monitor* __del = dynamic_cast< ::IceDelegate::Player::Monitor*>(__delBase.get());
-            __del->report(notif, __ctx, __observer);
+            __del->report(action, s, __ctx, __observer);
             return;
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
@@ -504,14 +558,15 @@ IceProxy::Player::Monitor::report(const ::std::string& notif, const ::Ice::Conte
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Player::Monitor::begin_report(const ::std::string& notif, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Player::Monitor::begin_report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
     ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Player__Monitor__report_name, __del, __cookie);
     try
     {
         __result->__prepare(__Player__Monitor__report_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(notif);
+        __os->write(action);
+        __os->write(s);
         __result->__endWriteParams();
         __result->__send(true);
     }
@@ -796,13 +851,55 @@ IceDelegateM::Player::Server::searchSong(const ::std::string& artist, const ::st
 }
 
 void
-IceDelegateM::Player::Monitor::report(const ::std::string& notif, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::Player::Server::uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __Player__Server__uploadFile_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(path);
+        __os->write(data);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    if(__og.hasResponse())
+    {
+        try
+        {
+            if(!__ok)
+            {
+                try
+                {
+                    __og.throwUserException();
+                }
+                catch(const ::Ice::UserException& __ex)
+                {
+                    ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                    throw __uue;
+                }
+            }
+            __og.readEmptyParams();
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+        }
+    }
+}
+
+void
+IceDelegateM::Player::Monitor::report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
     ::IceInternal::Outgoing __og(__handler.get(), __Player__Monitor__report_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(notif);
+        __os->write(action);
+        __os->write(s);
         __og.endWriteParams();
     }
     catch(const ::Ice::LocalException& __ex)
@@ -1230,15 +1327,82 @@ IceDelegateD::Player::Server::searchSong(const ::std::string& artist, const ::st
 }
 
 void
-IceDelegateD::Player::Monitor::report(const ::std::string& notif, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::Player::Server::uploadFile(const ::std::string& path, const ::Player::ByteSeq& data, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(const ::std::string& __p_notif, const ::Ice::Current& __current) : 
+        _DirectI(const ::std::string& __p_path, const ::Player::ByteSeq& __p_data, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
-            _m_notif(__p_notif)
+            _m_path(__p_path),
+            _m_data(__p_data)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::Player::Server* servant = dynamic_cast< ::Player::Server*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            servant->uploadFile(_m_path, _m_data, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        const ::std::string& _m_path;
+        const ::Player::ByteSeq& _m_data;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __Player__Server__uploadFile_name, ::Ice::Normal, __context);
+    try
+    {
+        _DirectI __direct(path, data, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+}
+
+void
+IceDelegateD::Player::Monitor::report(const ::std::string& action, const ::Player::Song& s, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(const ::std::string& __p_action, const ::Player::Song& __p_s, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _m_action(__p_action),
+            _m_s(__p_s)
         {
         }
         
@@ -1250,20 +1414,21 @@ IceDelegateD::Player::Monitor::report(const ::std::string& notif, const ::Ice::C
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            servant->report(_m_notif, _current);
+            servant->report(_m_action, _m_s, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
-        const ::std::string& _m_notif;
+        const ::std::string& _m_action;
+        const ::Player::Song& _m_s;
     };
     
     ::Ice::Current __current;
     __initCurrent(__current, __Player__Monitor__report_name, ::Ice::Normal, __context);
     try
     {
-        _DirectI __direct(notif, __current);
+        _DirectI __direct(action, s, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -1413,6 +1578,21 @@ Player::Server::___searchSong(::IceInternal::Incoming& __inS, const ::Ice::Curre
     return ::Ice::DispatchOK;
 }
 
+::Ice::DispatchStatus
+Player::Server::___uploadFile(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::std::string path;
+    ::Player::ByteSeq data;
+    __is->read(path);
+    __is->read(data);
+    __inS.endReadParams();
+    uploadFile(path, data, __current);
+    __inS.__writeEmptyParams();
+    return ::Ice::DispatchOK;
+}
+
 namespace
 {
 const ::std::string __Player__Server_all[] =
@@ -1426,7 +1606,8 @@ const ::std::string __Player__Server_all[] =
     "removeSong",
     "searchSong",
     "selectSong",
-    "stopSong"
+    "stopSong",
+    "uploadFile"
 };
 
 }
@@ -1434,7 +1615,7 @@ const ::std::string __Player__Server_all[] =
 ::Ice::DispatchStatus
 Player::Server::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Player__Server_all, __Player__Server_all + 10, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Player__Server_all, __Player__Server_all + 11, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
@@ -1481,6 +1662,10 @@ Player::Server::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& cu
         case 9:
         {
             return ___stopSong(in, current);
+        }
+        case 10:
+        {
+            return ___uploadFile(in, current);
         }
     }
 
@@ -1553,10 +1738,12 @@ Player::Monitor::___report(::IceInternal::Incoming& __inS, const ::Ice::Current&
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::std::string notif;
-    __is->read(notif);
+    ::std::string action;
+    ::Player::Song s;
+    __is->read(action);
+    __is->read(s);
     __inS.endReadParams();
-    report(notif, __current);
+    report(action, s, __current);
     __inS.__writeEmptyParams();
     return ::Ice::DispatchOK;
 }

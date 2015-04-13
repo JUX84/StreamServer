@@ -64,7 +64,7 @@ void StreamServer::stopSong(const std::string& token, const Ice::Current&) {
 void StreamServer::addSong(const Song& s, const Ice::Current&) {
 	std::cout << "Adding song (" << s.artist << ", " << s.title << ")\n";
 	songs.push_back(s);
-	monitor->report("The song "+s.title+" by "+s.artist+" was added");
+	monitor->report("add", s);
 }
 
 void StreamServer::removeSong(const Song& s, const Ice::Current&) {
@@ -73,7 +73,7 @@ void StreamServer::removeSong(const Song& s, const Ice::Current&) {
 		if(songs[i].artist == s.artist && songs[i].title == s.title)
 			songs.erase(songs.begin()+(i--));
 	}
-	monitor->report("The song "+s.title+" by "+s.artist+" was removed");
+	monitor->report("del", s);
 }
 
 std::vector<Song> StreamServer::searchSong(const std::string& artist, const std::string& title, const Ice::Current&) {
@@ -96,4 +96,13 @@ std::vector<Song> StreamServer::searchSong(const std::string& artist, const std:
 	}
 	std::cout << "Search finished\n";
 	return output;
+}
+
+void StreamServer::uploadFile(const std::string& name, const ByteSeq& data, const Ice::Current& c) {
+	FILE* file;
+	std::string path = "../songs/" + name;
+	file = fopen(path.c_str(), "a+");
+	fseek(file, 0, SEEK_END);
+	fwrite(&data[0], 1, data.size(), file);
+	fclose(file);
 }
