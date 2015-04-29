@@ -16,15 +16,20 @@ StreamServer::StreamServer() {
 		while (!topic) {
 			try {
 				topic = topicManager->retrieve("StreamPlayerNotifs");
+				std::cout << "Retrieving topic...\n";
 			} catch (const IceStorm::NoSuchTopic&) {
+				std::cout << "No topic!\n";
 				try {
 					topic = topicManager->create("StreamPlayerNotifs");
+					std::cout << "Creating topic...\n";
 				} catch(const IceStorm::TopicExists&) {
 				}
 			}
 		}
+		std::cout << "Topic active!\n";
 		Ice::ObjectPrx pub = topic->getPublisher()->ice_twoway();
 		monitor = MonitorPrx::uncheckedCast(pub);
+		std::cout << "Monitor active!\n";
 	} catch (const Ice::Exception& e) {
 		std::cerr << e << '\n';
 	}
@@ -48,32 +53,36 @@ std::string StreamServer::selectSong(const Song& s, const Ice::Current& c) {
 }
 
 void StreamServer::playSong(const std::string& token, const Ice::Current&) {
-	std::cout << "Playing song (" << token << ")\n";
 	if(vlc == nullptr)
 		return;
 	libvlc_vlm_play_media(vlc, token.c_str());
+	std::cout << "Playing song (" << token << ")\n";
 }
 
 void StreamServer::stopSong(const std::string& token, const Ice::Current&) {
-	std::cout << "Stopping song (" << token << ")\n";
 	if(vlc == nullptr)
 		return;
 	libvlc_vlm_stop_media(vlc, token.c_str());
+	std::cout << "Stopped song (" << token << ")\n";
 }
 
 void StreamServer::addSong(const Song& s, const Ice::Current&) {
-	std::cout << "Adding song (" << s.artist << ", " << s.title << ")\n";
 	songs.push_back(s);
+	std::cout << "Added song (" << s.artist << ", " << s.title << ")\n";
 	monitor->report("add", s);
+	std::cout << "Reported added song (" << s.artist << ", " << s.title << ")\n";
 }
 
 void StreamServer::removeSong(const Song& s, const Ice::Current&) {
 	std::cout << "Removing song (" << s.artist << ", " << s.title << ")\n";
 	for(int i = 0; i < songs.size(); ++i) {
-		if(songs[i].artist == s.artist && songs[i].title == s.title)
+		if(songs[i].artist == s.artist && songs[i].title == s.title) {
 			songs.erase(songs.begin()+(i--));
+			std::cout << "Removed song (" << s.artist << ", " << s.title << ")\n";
+		}
 	}
 	monitor->report("del", s);
+	std::cout << "Reported removed song (" << s.artist << ", " << s.title << ")\n";
 }
 
 std::vector<Song> StreamServer::searchSong(const std::string& artist, const std::string& title, const Ice::Current&) {
@@ -101,7 +110,7 @@ std::vector<Song> StreamServer::searchSong(const std::string& artist, const std:
 void StreamServer::uploadFile(const std::string& name, const ByteSeq& data, const Ice::Current& c) {
 	FILE* file;
 	std::string path = "songs/" + name + ".mp3";
-	std::cout << path << std::endl;
+	std::cout << "Writing song (" << path << ")\n";
 	file = fopen(path.c_str(), "a+");
 	fseek(file, 0, SEEK_END);
 	fwrite(&data[0], 1, data.size(), file);
