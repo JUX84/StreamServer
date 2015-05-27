@@ -1,5 +1,6 @@
 #include "StreamServer.hpp"
 
+#include <cstdlib>
 #include <Ice/Ice.h>
 
 int main(int argc, char **argv) {
@@ -16,6 +17,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 	}
+	system("exec rm songs/*");
 	int status = 0;
 	Ice::CommunicatorPtr ic;
 	try {

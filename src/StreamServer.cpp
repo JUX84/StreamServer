@@ -1,6 +1,7 @@
 #include "StreamServer.hpp"
 
 #include <chrono>
+#include <cstdio>
 #include <vlc/libvlc_vlm.h>
 #include <vlc/vlc.h>
 #include <Ice/Ice.h>
@@ -78,6 +79,7 @@ void StreamServer::removeSong(const Song& s, const Ice::Current&) {
 	for(int i = 0; i < songs.size(); ++i) {
 		if(songs[i].artist == s.artist && songs[i].title == s.title) {
 			songs.erase(songs.begin()+(i--));
+			remove((s.artist+"."+s.title).c_str());
 			std::cout << "Removed song (" << s.artist << ", " << s.title << ")\n";
 		}
 	}
